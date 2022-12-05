@@ -17,17 +17,20 @@ fn main() {
             .read_line(&mut guess)
             .expect("failed to read, please try again");
 
-        let guess: u32 = guess
-            .trim()
-            .parse()
-            .expect("failed to parse, please try again");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
         println!("your guess: {}", guess);
 
         match guess.cmp(&secret_guess) {
             Ordering::Equal => println!("Great, you win!"),
             Ordering::Less => println!("Too Small"),
-            Ordering::Greater => println!("Too big"),
+            Ordering::Greater => {
+                println!("Too big");
+                break;
+            }
         }
     }
 }
